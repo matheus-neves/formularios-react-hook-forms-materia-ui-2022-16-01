@@ -1,8 +1,9 @@
 import { Box, Button, Stack, Typography } from "@mui/material";
 import type { NextPage } from "next";
-import { useForm } from 'react-hook-form';
+import { FormProvider, useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup'
+import { RHFTextInput } from "./components/RHFTextInput";
 
 interface IFormInputs {
   email: string
@@ -16,7 +17,7 @@ const schema = yup.object().shape({
 
 const Home: NextPage = () => {
 
-  const {register, handleSubmit, formState: { errors }} = useForm<IFormInputs>({
+  const methods = useForm<IFormInputs>({
     defaultValues: {
       email: '',
       password: ''
@@ -38,29 +39,29 @@ const Home: NextPage = () => {
       }}
     >
       <Box>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <Stack
-            spacing={2}
-            sx={{
-              p: 4,
-              width: "300px",
-              borderRadius: 1,
-              background: "#edede9",
-            }}
-          >
-            <Typography variant="h4" textAlign="center" fontSize={26}>
-              React Hook Form
-            </Typography>
+        <FormProvider {...methods}>
+          <form onSubmit={methods.handleSubmit(onSubmit)}>
+            <Stack
+              spacing={2}
+              sx={{
+                p: 4,
+                width: "300px",
+                borderRadius: 1,
+                background: "#edede9",
+              }}
+            >
+              <Typography variant="h4" textAlign="center" fontSize={26}>
+                React Hook Form
+              </Typography>
 
-            <input type="text" placeholder="Email" {...register("email")} />
-            {errors.email && (<Typography variant="body1">{errors.email.message}</Typography>)}
+              
+              <RHFTextInput label="Email" name="email" />
+              <RHFTextInput label="Password" type="password" name="password" />
 
-            <input type="password" placeholder="Password" {...register("password")} />
-            {errors.password && (<Typography variant="body1">{errors.password.message}</Typography>)}
-            
-            <Button variant="contained" type="submit">Enviar</Button>
-          </Stack>
-        </form>
+              <Button variant="contained" type="submit">Enviar</Button>
+            </Stack>
+          </form>
+        </FormProvider>
       </Box>
     </Stack>
   );
