@@ -4,6 +4,7 @@ import { FormProvider, useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup'
 import { RHFTextInput } from "./components/RHFTextInput";
+import { MUITextField } from "./components/MUITextField";
 
 interface IFormInputs {
   email: string
@@ -27,6 +28,7 @@ const Home: NextPage = () => {
 
   const onSubmit = (data: IFormInputs) => {
     console.log(data)
+    methods.reset()
   }
 
   return (
@@ -54,9 +56,12 @@ const Home: NextPage = () => {
                 React Hook Form
               </Typography>
 
-              
+              {/*               
               <RHFTextInput label="Email" name="email" />
-              <RHFTextInput label="Password" type="password" name="password" />
+              <RHFTextInput label="Password" type="password" name="password" /> */}
+
+              <MUITextField label="Email" name="email" />
+              <MUITextField label="Password" type="password" name="password" />
 
               <Button variant="contained" type="submit">Enviar</Button>
             </Stack>
